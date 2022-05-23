@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class FindingWordQuestionsDto {
 
-    private Long id;
+    private Long findingWordId;
 
     private String text;
 
