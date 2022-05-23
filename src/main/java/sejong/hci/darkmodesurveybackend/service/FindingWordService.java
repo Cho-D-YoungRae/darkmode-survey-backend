@@ -36,6 +36,7 @@ public class FindingWordService {
         return answerDtos.stream().map(answerDto -> findingWordAnswerRepository.save(FindingWordAnswer.builder()
                         .findingWord(FindingWord.builder().id(answerDto.getFindingWordId()).build())
                         .answer(answerDto.getAnswer())
+                        .uiMode(answerDto.getUiMode())
                         .estimatedSeconds(answerDto.getEstimatedSeconds())
                         .build()).getId())
                 .collect(Collectors.toList());

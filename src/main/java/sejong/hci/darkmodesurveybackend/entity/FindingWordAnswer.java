@@ -29,6 +29,10 @@ public class FindingWordAnswer extends BaseTimeEntity {
     @Column(name = "answer", nullable = false)
     private Integer answer;
 
+    @Column(name = "ui_mode", nullable = false, length = 25)
+    @Enumerated(EnumType.STRING)
+    private UiMode uiMode;
+
     @Column(name = "estimated_seconds", nullable = false)
     private Integer estimatedSeconds;
 }
