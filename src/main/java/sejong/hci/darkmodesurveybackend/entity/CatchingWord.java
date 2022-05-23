@@ -22,6 +22,6 @@ public class CatchingWord extends BaseTimeEntity {
     @Column(name = "catching_word_id")
     private Long id;
 
-    @Column(name = "word")
+    @Column(name = "word", length = 45)
     private String word;
 }
