@@ -5,7 +5,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import sejong.hci.darkmodesurveybackend.entity.CatchingWord;
 import sejong.hci.darkmodesurveybackend.entity.FindingWord;
+import sejong.hci.darkmodesurveybackend.repository.CatchingWordRepository;
 import sejong.hci.darkmodesurveybackend.repository.FindingWordRepository;
 
 import java.util.List;
@@ -20,6 +22,9 @@ public class InitDataConfig {
             @Autowired
             private FindingWordRepository findingWordRepository;
 
+            @Autowired
+            private CatchingWordRepository catchingWordRepository;
+
             @Override
             public void run(ApplicationArguments args) throws Exception {
                 findingWordRepository.saveAll(List.of(
@@ -32,7 +37,7 @@ public class InitDataConfig {
                                         "나의 그림 제 1호였다. 나는 그 걸작품을 어른들에게 보여 주면서 내 그림이 무섭지 않느냐고 물었다. " +
                                         "그들은 \"모자가 뭐가 무섭다는 거니?\"하고 대답했다. " +
                                         "내 그림은 모자를 그린 게 아니었다. 그것은 코끼리를 소화시키고 있는 보아 구렁이었다.")
-                                .wordToFind("그림")
+                                .word("그림")
                                 .correctAnswer(7)
                                 .build(),
                         FindingWord.builder()
@@ -46,7 +51,7 @@ public class InitDataConfig {
                                         "그 사람이 정말로 뭘 이해할 줄 아는 사람인가 알고 싶었던 것이다. " +
                                         "그러나 으레 그 사람은 \"모자군\"하고 대답하는 것이었다. " +
                                         "그러면 나는 보아 구렁이도 원시림도 별들도 그에게 이야기하지 않았다.")
-                                .wordToFind("나는")
+                                .word("나는")
                                 .correctAnswer(5)
                                 .build(),
                         FindingWord.builder()
@@ -63,7 +68,7 @@ public class InitDataConfig {
                                         "\"몹시 슬플 때에는 해지는 모습을 좋아하게 되지...\" " +
                                         "\"마흔 세 번 본 날 그럼 너는 몹시 슬펐니?\" " +
                                         "그러나 어린 왕자는 대답이 없었다.")
-                                .wordToFind("해")
+                                .word("해")
                                 .correctAnswer(7)
                                 .build(),
                         FindingWord.builder()
@@ -76,7 +81,7 @@ public class InitDataConfig {
                                         "\"부탁이야... 양을 한 마리 그려 줘...\" " +
                                         "너무도 인상깊은 신비스러운 일을 당하게 되면 누구나 거기에 순순히 따르게 되기 마련이다. " +
                                         "마을에서 수천 마일 떨어진 곳에서 죽음의 위험을 마주하고 있는 중에 참 엉뚱한 짓이라고 느껴지기는 했지만 나는 주머니에서 종이 한 장과 만년필을 꺼냈다.")
-                                .wordToFind("마을")
+                                .word("마을")
                                 .correctAnswer(3)
                                 .build(),
                         FindingWord.builder()
@@ -88,7 +93,7 @@ public class InitDataConfig {
                                         "그랬더니 그래도 가는 기색이 없고, 뿐만 아니라 쌔근쌔근하고 심상치 않게 숨소리가 점점 거칠어진다. 이건 또 뭐야 싶어서 그때에야 비로소 돌아다보니 나는 참으로 놀랐다. " +
                                         "우리가 이 동네에 들어온 것은 근 삼 년째 되어 오지만 여태껏 가무잡잡한 점순이의 얼굴이 이렇게까지 홍당무처럼 새빨개진 법이 없었다. " +
                                         "그리고 바구니를 다시 집어 들더니 이를 꼭 악물고는 논둑으로 횡하게 달아나는 것이다.")
-                                .wordToFind("감자")
+                                .word("감자")
                                 .correctAnswer(4)
                                 .build(),
                         FindingWord.builder()
@@ -100,7 +105,7 @@ public class InitDataConfig {
                                         "\"그럼 혼자 하지 떼루 하듸?\" 내가 이렇게 내뱉는 소리를 하니까, " +
                                         "\"너 일하기 좋니?\" 또는, \"한여름이나 되거든 하지 벌써 울타리를 하니?\" 잔소리를 두루 늘어놓다가 남이 들을까봐 손으로 입을 틀어막고는 그 속에서 깔깔댄다. " +
                                         "별로 우스울 것도 없는데 날씨가 풀리더니 이 놈의 계집애가 미쳤나 하고 의심하였다.")
-                                .wordToFind("남")
+                                .word("남")
                                 .correctAnswer(3)
                                 .build(),
                         FindingWord.builder()
@@ -112,7 +117,7 @@ public class InitDataConfig {
                                         "그리고 나는 멍하니 섰다가 점순이가 매섭게 눈을 홉뜨고 닥치는 바람에 뒤로 벌렁 나자빠졌다. \"이놈아! 너 왜 남의 닭을 때려죽이니?\" " +
                                         "\"그럼 어때?\" 하고 일어나다가, \"뭐 이 자식아! 누 집 닭인데?\" 하고 복장을 떠미는 바람에 다시 벌렁 자빠졌다. " +
                                         "나는 비슬비슬 일어나며 소맷자락으로 눈을 가리고는, 얼김에 엉 하고 울음을 놓았다.")
-                                .wordToFind("닭")
+                                .word("닭")
                                 .correctAnswer(5)
                                 .build(),
                         FindingWord.builder()
@@ -130,11 +135,20 @@ public class InitDataConfig {
                                         "하고 어딜 갔다 온 듯싶은 그 어머니가 역정이 대단히 났다. " +
                                         "점순이가 겁을 잔뜩 집어먹고 꽃 밑을 살금살금 기어서 산 아래로 내려간 다음 " +
                                         "나는 바위를 끼고 엉금엉금 기어서 산위로 치빼지 않을 수 없었다.")
-                                .wordToFind("그래")
+                                .word("그래")
                                 .correctAnswer(5)
                                 .build()
                 ));
-
+                catchingWordRepository.saveAll(List.of(
+                        CatchingWord.builder().word("크루즈 패밀리").build(),
+                        CatchingWord.builder().word("식품의약품안전처").build(),
+                        CatchingWord.builder().word("해커스 토익 스피킹 레벨 7, 8").build(),
+                        CatchingWord.builder().word("경기 남양주시 수동면").build(),
+                        CatchingWord.builder().word("맥도도 코리아").build(),
+                        CatchingWord.builder().word("시믹씨엠오코리아").build(),
+                        CatchingWord.builder().word("도널드 노먼의 디자인 심리학").build(),
+                        CatchingWord.builder().word("경기 평택시 산단로").build()
+                ));
             }
         };
     }
