@@ -25,8 +25,8 @@ public class FindingWord extends BaseTimeEntity {
     @Column(name = "text", nullable = false, length = 1000)
     private String text;
 
-    @Column(name = "word_to_find", nullable = false, length = 45)
-    private String wordToFind;
+    @Column(name = "word", nullable = false, length = 45)
+    private String word;
 
     @Column(name = "correct_answer", nullable = false)
     private Integer correctAnswer;

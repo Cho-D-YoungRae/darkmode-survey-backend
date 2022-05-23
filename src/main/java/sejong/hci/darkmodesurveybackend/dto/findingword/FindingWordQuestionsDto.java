@@ -9,5 +9,5 @@ public class FindingWordQuestionsDto {
 
     private String text;
 
-    private String wordToFind;
+    private String word;
 }
