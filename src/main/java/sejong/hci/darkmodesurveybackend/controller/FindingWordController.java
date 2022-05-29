@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sejong.hci.darkmodesurveybackend.dto.common.ApiResult;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordAnswerDto;
+import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordAnswersDto;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordQuestionsDto;
 import sejong.hci.darkmodesurveybackend.service.FindingWordService;
 
@@ -28,9 +29,9 @@ public class FindingWordController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResult<Void>> saveFindingWordAnswers(@RequestBody List<FindingWordAnswerDto> answers) {
+    public ResponseEntity<ApiResult<Void>> saveFindingWordAnswers(@RequestBody FindingWordAnswersDto answersDto) {
 
-        findingWordService.saveAnswers(answers);
+        findingWordService.saveAnswers(answersDto.getAnswers());
 
         ApiResult<Void> result = ApiResult.<Void>builder().build();
 
