@@ -32,4 +32,7 @@ public class CatchingWordAnswer extends BaseTimeEntity {
     @Column(name = "ui_mode", nullable = false, length = 25)
     @Enumerated(EnumType.STRING)
     private UiMode uiMode;
+
+    @Column(name = "created_by", nullable = false, updatable = false, length = 45)
+    private String createdBy;
 }

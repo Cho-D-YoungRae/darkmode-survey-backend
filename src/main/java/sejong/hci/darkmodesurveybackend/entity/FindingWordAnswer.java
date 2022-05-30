@@ -35,4 +35,7 @@ public class FindingWordAnswer extends BaseTimeEntity {
 
     @Column(name = "estimated_seconds", nullable = false)
     private Integer estimatedSeconds;
+
+    @Column(name = "created_by", nullable = false, updatable = false, length = 45)
+    private String createdBy;
 }

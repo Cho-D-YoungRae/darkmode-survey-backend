@@ -12,6 +12,7 @@ import sejong.hci.darkmodesurveybackend.repository.CatchingWordAnswerRepository;
 import sejong.hci.darkmodesurveybackend.repository.CatchingWordRepository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,11 +34,16 @@ public class CatchingWordService {
 
     @Transactional
     public List<Long> saveAnswers(List<CatchingWordAnswerDto> answerDtos) {
-        return answerDtos.stream().map(answerDto -> catchingWordAnswerRepository.save(CatchingWordAnswer.builder()
-                        .catchingWord(CatchingWord.builder().id(answerDto.getCatchingWordId()).build())
-                        .answer(answerDto.getAnswer())
-                        .uiMode(answerDto.getUiMode())
-                        .build()).getId())
+        String createdBy = UUID.randomUUID().toString();
+        return catchingWordAnswerRepository.saveAll(answerDtos.stream().map(answerDto -> CatchingWordAnswer.builder()
+                                .catchingWord(CatchingWord.builder().id(answerDto.getCatchingWordId()).build())
+                                .answer(answerDto.getAnswer())
+                                .uiMode(answerDto.getUiMode())
+                                .createdBy(createdBy)
+                                .build())
+                        .collect(Collectors.toList()))
+                .stream()
+                .map(CatchingWordAnswer::getId)
                 .collect(Collectors.toList());
     }
 }

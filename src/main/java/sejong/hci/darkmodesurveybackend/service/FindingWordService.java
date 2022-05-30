@@ -12,6 +12,7 @@ import sejong.hci.darkmodesurveybackend.repository.FindingWordAnswerRepository;
 import sejong.hci.darkmodesurveybackend.repository.FindingWordRepository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,12 +34,17 @@ public class FindingWordService {
 
     @Transactional
     public List<Long> saveAnswers(List<FindingWordAnswerDto> answerDtos) {
-        return answerDtos.stream().map(answerDto -> findingWordAnswerRepository.save(FindingWordAnswer.builder()
-                        .findingWord(FindingWord.builder().id(answerDto.getFindingWordId()).build())
-                        .answer(answerDto.getAnswer())
-                        .uiMode(answerDto.getUiMode())
-                        .estimatedSeconds(answerDto.getEstimatedSeconds())
-                        .build()).getId())
+        String createdBy = UUID.randomUUID().toString();
+        return findingWordAnswerRepository.saveAll(answerDtos.stream().map(answerDto -> FindingWordAnswer.builder()
+                                .findingWord(FindingWord.builder().id(answerDto.getFindingWordId()).build())
+                                .answer(answerDto.getAnswer())
+                                .uiMode(answerDto.getUiMode())
+                                .estimatedSeconds(answerDto.getEstimatedSeconds())
+                                .createdBy(createdBy)
+                                .build())
+                        .collect(Collectors.toList()))
+                .stream()
+                .map(FindingWordAnswer::getId)
                 .collect(Collectors.toList());
     }
 }
