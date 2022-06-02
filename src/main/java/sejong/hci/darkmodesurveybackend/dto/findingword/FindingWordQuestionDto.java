@@ -3,7 +3,7 @@ package sejong.hci.darkmodesurveybackend.dto.findingword;
 import lombok.Data;
 
 @Data
-public class FindingWordQuestionsDto {
+public class FindingWordQuestionDto {
 
     private Long findingWordId;
 
