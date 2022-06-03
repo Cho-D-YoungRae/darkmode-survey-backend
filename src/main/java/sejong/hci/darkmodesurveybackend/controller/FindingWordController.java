@@ -6,9 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import sejong.hci.darkmodesurveybackend.dto.common.ApiResult;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordAnswerDto;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordAnswersDto;
-import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordQuestionsDto;
+import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordGradeDto;
+import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordQuestionDto;
+import sejong.hci.darkmodesurveybackend.repository.dto.FindingWordCorrectAnswerDto;
 import sejong.hci.darkmodesurveybackend.service.FindingWordService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,9 +22,9 @@ public class FindingWordController {
     private final FindingWordService findingWordService;
 
     @GetMapping
-    public ResponseEntity<ApiResult<List<FindingWordQuestionsDto>>> getFindingWordQuestions() {
+    public ResponseEntity<ApiResult<List<FindingWordQuestionDto>>> getFindingWordQuestions() {
 
-        ApiResult<List<FindingWordQuestionsDto>> result = ApiResult.<List<FindingWordQuestionsDto>>builder()
+        ApiResult<List<FindingWordQuestionDto>> result = ApiResult.<List<FindingWordQuestionDto>>builder()
                 .data(findingWordService.getQuestions())
                 .build();
 
@@ -29,11 +32,19 @@ public class FindingWordController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResult<Void>> saveFindingWordAnswers(@RequestBody FindingWordAnswersDto answersDto) {
+    public ResponseEntity<ApiResult<FindingWordGradeDto>> saveFindingWordAnswers(
+            @Valid @RequestBody FindingWordAnswersDto answersDto) {
 
-        findingWordService.saveAnswers(answersDto.getAnswers());
+        List<FindingWordAnswerDto> answers = answersDto.getAnswers();
+        findingWordService.saveAnswers(answers);
 
-        ApiResult<Void> result = ApiResult.<Void>builder().build();
+        List<FindingWordCorrectAnswerDto> correctAnswers = findingWordService.getCorrectAnswers();
+
+        FindingWordGradeDto grade = new FindingWordGradeDto(answers, correctAnswers);
+
+        ApiResult<FindingWordGradeDto> result = ApiResult.<FindingWordGradeDto>builder()
+                .data(grade)
+                .build();
 
         return ResponseEntity.ok(result);
     }

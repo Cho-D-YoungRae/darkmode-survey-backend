@@ -5,11 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordAnswerDto;
-import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordQuestionsDto;
+import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordQuestionDto;
 import sejong.hci.darkmodesurveybackend.entity.FindingWord;
 import sejong.hci.darkmodesurveybackend.entity.FindingWordAnswer;
 import sejong.hci.darkmodesurveybackend.repository.FindingWordAnswerRepository;
 import sejong.hci.darkmodesurveybackend.repository.FindingWordRepository;
+import sejong.hci.darkmodesurveybackend.repository.dto.FindingWordCorrectAnswerDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,9 +27,9 @@ public class FindingWordService {
 
     private final ModelMapper modelMapper;
 
-    public List<FindingWordQuestionsDto> getQuestions() {
+    public List<FindingWordQuestionDto> getQuestions() {
         return findingWordRepository.findAll().stream()
-                .map(findingWord -> modelMapper.map(findingWord, FindingWordQuestionsDto.class))
+                .map(findingWord -> modelMapper.map(findingWord, FindingWordQuestionDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -46,5 +47,9 @@ public class FindingWordService {
                 .stream()
                 .map(FindingWordAnswer::getId)
                 .collect(Collectors.toList());
+    }
+
+    public List<FindingWordCorrectAnswerDto> getCorrectAnswers() {
+        return findingWordRepository.findAllCorrectAnswers();
     }
 }
