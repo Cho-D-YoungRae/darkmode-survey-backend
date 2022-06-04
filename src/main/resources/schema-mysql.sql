@@ -43,6 +43,15 @@ create table finding_word_answer
     primary key (finding_word_answer_id)
 );
 
+create table ui_preference_survey
+(
+    ui_preference_survey_id bigint      not null auto_increment,
+    ui_mode                 varchar(25) not null,
+    created_date            datetime(6) not null,
+    last_modified_date      datetime(6) not null,
+    primary key (ui_preference_survey_id)
+);
+
 alter table catching_word_answer
     add constraint FK_catching_word_answer_catching_word
         foreign key (catching_word_id)
