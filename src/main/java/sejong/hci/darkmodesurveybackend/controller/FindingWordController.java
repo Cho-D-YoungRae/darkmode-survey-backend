@@ -8,7 +8,7 @@ import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordAnswerDto;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordAnswersDto;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordGradeDto;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordQuestionDto;
-import sejong.hci.darkmodesurveybackend.repository.dto.FindingWordCorrectAnswerDto;
+import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordCorrectAnswerDto;
 import sejong.hci.darkmodesurveybackend.service.FindingWordService;
 
 import javax.validation.Valid;

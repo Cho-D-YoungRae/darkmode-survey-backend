@@ -1,4 +1,4 @@
-package sejong.hci.darkmodesurveybackend.repository.dto;
+package sejong.hci.darkmodesurveybackend.dto.findingword;
 
 import lombok.Data;
 

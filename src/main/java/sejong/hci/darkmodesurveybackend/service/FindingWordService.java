@@ -10,7 +10,7 @@ import sejong.hci.darkmodesurveybackend.entity.FindingWord;
 import sejong.hci.darkmodesurveybackend.entity.FindingWordAnswer;
 import sejong.hci.darkmodesurveybackend.repository.FindingWordAnswerRepository;
 import sejong.hci.darkmodesurveybackend.repository.FindingWordRepository;
-import sejong.hci.darkmodesurveybackend.repository.dto.FindingWordCorrectAnswerDto;
+import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordCorrectAnswerDto;
 
 import java.util.List;
 import java.util.UUID;

@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordAnswerDto;
-import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordQuestionDto;
+import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordDto;
 import sejong.hci.darkmodesurveybackend.entity.CatchingWord;
 import sejong.hci.darkmodesurveybackend.entity.CatchingWordAnswer;
 import sejong.hci.darkmodesurveybackend.repository.CatchingWordAnswerRepository;
@@ -26,9 +26,9 @@ public class CatchingWordService {
 
     private final ModelMapper modelMapper;
 
-    public List<CatchingWordQuestionDto> getQuestions() {
+    public List<CatchingWordDto> getCatchingWords() {
         return catchingWordRepository.findAll().stream()
-                .map(catchingWord -> modelMapper.map(catchingWord, CatchingWordQuestionDto.class))
+                .map(catchingWord -> modelMapper.map(catchingWord, CatchingWordDto.class))
                 .collect(Collectors.toList());
     }
 

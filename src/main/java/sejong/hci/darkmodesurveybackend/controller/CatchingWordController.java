@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordAnswerDto;
-import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordQuestionDto;
+import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordAnswersDto;
+import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordDto;
+import sejong.hci.darkmodesurveybackend.dto.catcingword.CatchingWordGradeDto;
 import sejong.hci.darkmodesurveybackend.dto.common.ApiResult;
 import sejong.hci.darkmodesurveybackend.service.CatchingWordService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,20 +21,28 @@ public class CatchingWordController {
     private final CatchingWordService catchingWordService;
 
     @GetMapping
-    public ResponseEntity<ApiResult<List<CatchingWordQuestionDto>>> getCatchingWordQuestions() {
-        ApiResult<List<CatchingWordQuestionDto>> result = ApiResult.<List<CatchingWordQuestionDto>>builder()
-                .data(catchingWordService.getQuestions())
+    public ResponseEntity<ApiResult<List<CatchingWordDto>>> getCatchingWordQuestions() {
+        ApiResult<List<CatchingWordDto>> result = ApiResult.<List<CatchingWordDto>>builder()
+                .data(catchingWordService.getCatchingWords())
                 .build();
 
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
-    public ResponseEntity<ApiResult<Void>> saveCatchingWordAnswers(@RequestBody List<CatchingWordAnswerDto> answers) {
+    public ResponseEntity<ApiResult<CatchingWordGradeDto>> saveCatchingWordAnswers(
+            @Valid @RequestBody CatchingWordAnswersDto answersDto) {
 
+        List<CatchingWordAnswerDto> answers = answersDto.getAnswers();
         catchingWordService.saveAnswers(answers);
 
-        ApiResult<Void> result = ApiResult.<Void>builder().build();
+        List<CatchingWordDto> catchingWords = catchingWordService.getCatchingWords();
+
+        CatchingWordGradeDto grade = new CatchingWordGradeDto(answers, catchingWords);
+
+        ApiResult<CatchingWordGradeDto> result = ApiResult.<CatchingWordGradeDto>builder()
+                .data(grade)
+                .build();
 
         return ResponseEntity.ok(result);
     }
