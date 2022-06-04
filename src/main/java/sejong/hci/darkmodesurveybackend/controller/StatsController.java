@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sejong.hci.darkmodesurveybackend.dto.common.ApiResult;
+import sejong.hci.darkmodesurveybackend.dto.stats.CatchingWordStatsDto;
 import sejong.hci.darkmodesurveybackend.dto.stats.FindingWordStatsDto;
 import sejong.hci.darkmodesurveybackend.service.StatsService;
 
@@ -21,6 +22,16 @@ public class StatsController {
 
         ApiResult<FindingWordStatsDto> result = ApiResult.<FindingWordStatsDto>builder()
                 .data(statsService.getFindingWordStats())
+                .build();
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/catching-word")
+    public ResponseEntity<ApiResult<CatchingWordStatsDto>> getCatchingWordStats() {
+
+        ApiResult<CatchingWordStatsDto> result = ApiResult.<CatchingWordStatsDto>builder()
+                .data(statsService.getCatchingWordStats())
                 .build();
 
         return ResponseEntity.ok(result);

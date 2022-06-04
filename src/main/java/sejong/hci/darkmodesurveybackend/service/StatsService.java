@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sejong.hci.darkmodesurveybackend.dto.findingword.FindingWordCorrectAnswerDto;
+import sejong.hci.darkmodesurveybackend.dto.stats.CatchingWordStatsDto;
 import sejong.hci.darkmodesurveybackend.dto.stats.FindingWordStatsDto;
+import sejong.hci.darkmodesurveybackend.entity.CatchingWordAnswer;
 import sejong.hci.darkmodesurveybackend.entity.FindingWordAnswer;
 import sejong.hci.darkmodesurveybackend.entity.UiMode;
 import sejong.hci.darkmodesurveybackend.repository.CatchingWordAnswerRepository;
@@ -55,7 +57,7 @@ public class StatsService {
         });
 
         FindingWordStatsDto findingWordStatsDto = new FindingWordStatsDto();
-        ArrayList<FindingWordStatsDto.StatsPerQuestionDto> statsPerQuestionDtos = new ArrayList<>();
+        List<FindingWordStatsDto.StatsPerQuestionDto> statsPerQuestionDtos = new ArrayList<>();
         idUiModeToStatsPerQuestion.values().forEach(uiModeToStatsPerQuestion ->
                 statsPerQuestionDtos.addAll(uiModeToStatsPerQuestion.values()));
         findingWordStatsDto.setStatsPerQuestion(statsPerQuestionDtos);
@@ -67,5 +69,40 @@ public class StatsService {
                 .mapToLong(FindingWordStatsDto.StatsPerQuestionDto::getTotalSeconds).sum());
 
         return findingWordStatsDto;
+    }
+
+    public CatchingWordStatsDto getCatchingWordStats() {
+        List<CatchingWordAnswer> answers = catchingWordAnswerRepository.findAllWithCatchingWord();
+        Map<Long, Map<UiMode, CatchingWordStatsDto.StatsPerQuestionDto>> idUiModeToStatsPerQuestion = new HashMap<>();
+        answers.forEach(answer -> {
+            long catchingWordId = answer.getCatchingWord().getId();
+            if (!idUiModeToStatsPerQuestion.containsKey(catchingWordId)) {
+                idUiModeToStatsPerQuestion.put(catchingWordId, Arrays.stream(UiMode.values()).collect(Collectors.toMap(
+                        Function.identity(), uiMode -> new CatchingWordStatsDto.StatsPerQuestionDto())));
+                idUiModeToStatsPerQuestion.get(catchingWordId).keySet().forEach(uiMode -> {
+                    CatchingWordStatsDto.StatsPerQuestionDto stats =
+                            idUiModeToStatsPerQuestion.get(catchingWordId).get(uiMode);
+                    stats.setCatchingWordId(catchingWordId);
+                    stats.setUiMode(uiMode);
+                });
+            }
+            CatchingWordStatsDto.StatsPerQuestionDto stats =
+                    idUiModeToStatsPerQuestion.get(catchingWordId).get(answer.getUiMode());
+            stats.setTotalNum(stats.getTotalNum() + 1);
+            stats.setCorrectNum(stats.getCorrectNum() + (Objects.equals(
+                    answer.getCatchingWord().getWord(), answer.getAnswer()) ? 1: 0));
+        });
+
+        CatchingWordStatsDto catchingWordStatsDto = new CatchingWordStatsDto();
+        List<CatchingWordStatsDto.StatsPerQuestionDto> statsPerQuestionDtos = new ArrayList<>();
+        idUiModeToStatsPerQuestion.values().forEach(uiModeToStatsPerQuestion ->
+                statsPerQuestionDtos.addAll(uiModeToStatsPerQuestion.values()));
+        catchingWordStatsDto.setStatsPerQuestion(statsPerQuestionDtos);
+        catchingWordStatsDto.setTotalNum(statsPerQuestionDtos.stream()
+                .mapToLong(CatchingWordStatsDto.StatsPerQuestionDto::getTotalNum).sum());
+        catchingWordStatsDto.setCorrectNum(statsPerQuestionDtos.stream()
+                .mapToLong(CatchingWordStatsDto.StatsPerQuestionDto::getCorrectNum).sum());
+
+        return catchingWordStatsDto;
     }
 }
