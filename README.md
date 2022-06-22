@@ -10,8 +10,6 @@ Dark mode UI 에 대한 조사 및 데이터 수집을 위한 어플리케이션
 
 - Skill
     > `Spring Boot`, `Spring Data JPA`, `MySQL`
-- Document
-    > `Spring Rest Docs`
 - Infra
     > `AWS EC2`, `AWS RDS`
 
